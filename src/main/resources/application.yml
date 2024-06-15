@@ -10,12 +10,30 @@ spring:
       enabled: ALWAYS
   mustache:
     check-template-location: false
+  datasource:
+    url: jdbc:h2:mem:optosoft;DB_CLOSE_DELAY=-1;IGNORECASE=TRUE;MODE=MYSQL;DATABASE_TO_UPPER=FALSE;DB_CLOSE_ON_EXIT=true
+    username: sa
   h2:
     console:
       enabled: true
 vaadin:
-  launch-browser: true
+  launch-browser: false
 logging:
   level:
     root: warn
     com.samsoft: debug
+management:
+  endpoints:
+    enabled-by-default: true
+    web:
+      exposure:
+        include: '*'
+  health:
+    livenessstate:
+      enabled: true
+    readinessstate:
+      enabled: true
+  endpoint:
+    health:
+      probes:
+        enabled: true

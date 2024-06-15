@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vaaladin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vaaladin
+  template:
+    metadata:
+      labels:
+        app: vaaladin
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - name: vaaladin
+          image: vaaladin
+          imagePullPolicy: "Never"
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness # The path to check for the liveness probe
+              port: 8080 # The port to check on
+            initialDelaySeconds: 10 # Wait this many seconds before starting the probe
+            periodSeconds: 5 # Check the probe every 10 seconds
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness # The path to check for the readiness probe
+              port: 8080 # The port to check on
+            initialDelaySeconds: 12 # Wait this many seconds before starting the probe
+            periodSeconds: 5 # Check the probe every 5 seconds
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "500m"
+            limits:
+              memory: "512Mi"
+              cpu: "800m"
+          ports:
+            - containerPort: 8080
+          env:
+            - name: JAVA_OPTS
+              value: "-XX:MaxRAMPercentage=70 -XX:InitialRAMPercentage=70 -XX:+UseZGC -XX:+ZGenerational"
