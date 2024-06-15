@@ -1,0 +1,21 @@
+server:
+  port: ${PORT:8080}
+spring:
+  application:
+    name: vaaladin
+  main:
+    banner-mode: off
+  output:
+    ansi:
+      enabled: ALWAYS
+  mustache:
+    check-template-location: false
+  h2:
+    console:
+      enabled: true
+vaadin:
+  launch-browser: true
+logging:
+  level:
+    root: warn
+    com.samsoft: debug
