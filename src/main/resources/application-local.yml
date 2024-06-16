@@ -17,11 +17,11 @@ spring:
     console:
       enabled: true
 vaadin:
-  launch-browser: false
+  launch-browser: true
 logging:
   level:
     root: warn
-    com.samsoft: info
+    com.samsoft: debug
 management:
   endpoints:
     enabled-by-default: true
