@@ -1,39 +1,22 @@
-server:
-  port: ${PORT:8080}
 spring:
-  application:
-    name: vaaladin
-  main:
-    banner-mode: off
   output:
     ansi:
       enabled: ALWAYS
-  mustache:
-    check-template-location: false
   datasource:
     url: jdbc:h2:mem:optosoft;DB_CLOSE_DELAY=-1;IGNORECASE=TRUE;MODE=MYSQL;DATABASE_TO_UPPER=FALSE;DB_CLOSE_ON_EXIT=true
     username: sa
   h2:
     console:
       enabled: true
+  security:
+    user:
+      name: user
+      password: password
 vaadin:
   launch-browser: true
 logging:
   level:
-    root: warn
+    root: info
     com.samsoft: debug
-management:
-  endpoints:
-    enabled-by-default: true
-    web:
-      exposure:
-        include: '*'
-  health:
-    livenessstate:
-      enabled: true
-    readinessstate:
-      enabled: true
-  endpoint:
-    health:
-      probes:
-        enabled: true
+
+
