@@ -16,7 +16,7 @@ vaadin:
   launch-browser: true
 logging:
   level:
-    root: info
+    root: warn
     com.samsoft: debug
 
 

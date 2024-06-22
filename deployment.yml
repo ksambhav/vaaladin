@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: vaaladin
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: vaaladin
@@ -43,12 +43,67 @@ spec:
             - containerPort: 8080
               name: web
           env:
+            - name: SPRING_FLYWAY_ENABLED
+              value: "true"
             - name: SPRING_PROFILES_ACTIVE
-              value: local
+              value: "demo"
+            - name: DB_URL
+              value: "jdbc:mysql://vaaladin-mysql-db.vaaladin.svc.cluster.local:3306/vaaladindb"
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: vaaladin-mysql-db-cluster-secret
+                  key: rootUser
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: vaaladin-mysql-db-cluster-secret
+                  key: rootPassword
             - name: JAVA_OPTS
               value: "-XX:MaxRAMPercentage=80 -XX:InitialRAMPercentage=80 -XX:+UseZGC -XX:+ZGenerational"
 ---
-## setup pod monitor
+apiVersion: v1
+kind: Service
+metadata:
+  name: vaaladin-service
+spec:
+  selector:
+    app: vaaladin
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: vaaladin-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: vaaladin.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: vaaladin-service
+                port:
+                  number: 80
+    - host: grafana.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: kube-prometheus-stack-grafana
+                port:
+                  number: 80
+---
 apiVersion: monitoring.coreos.com/v1
 kind: PodMonitor
 metadata:

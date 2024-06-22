@@ -11,6 +11,7 @@
         <java.version>22</java.version>
         <vaadin.version>24.4.1</vaadin.version>
         <spring-modulith.version>1.2.0</spring-modulith.version>
+        <mysql.version>8.4.0</mysql.version>
     </properties>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -62,9 +63,15 @@
             <optional>true</optional>
         </dependency>
         <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+            <version>${mysql.version}</version>
+        </dependency>
+        <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <scope>runtime</scope>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>io.micrometer</groupId>
@@ -83,6 +90,10 @@
         <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-mysql</artifactId>
         </dependency>
         <dependency>
             <groupId>com.vaadin</groupId>

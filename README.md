@@ -79,23 +79,75 @@ Vaadin web applications are full-stack and include both client-side and server-s
   our [Discord channel](https://discord.gg/MYFq5RTbBn).
 - Report issues, create pull requests in [GitHub](https://github.com/vaadin/platform).
 
+## Running locally using Docker
+
+//TODO
+
 ## Deployment
 
-The sample application is packaged as Docker container which can be deployed as Docker compose or as a Kubernetes
-deployment. Here we will demonstrate deployment using Kubernetes (just for fun). This is not recommendation for a
+The application is packaged as Docker container which can be deployed as Docker compose or as a Kubernetes
+deployment. Here we will demonstrate deployment using Kubernetes running as
+a [Docker Desktop](https://www.docker.com/products/docker-desktop/) (just for fun ;-p). These are **NOT** a
+recommendation
+for a
 production grade environment.
 
-### Installing `Grafana Loki` & `kube-prometheus-stack`
+### Database
+
+We will be using MySQL as our choice for the RDBMS. We will be using
+the [MySQL Operator for Kubernetes](https://dev.mysql.com/doc/mysql-operator/en/) for deploying a simple single node
+cluster
+
+```commandline
+kubectl create ns vaaladin
+```
+```commandline
+helm repo add mysql-operator https://mysql.github.io/mysql-operator/
+```
+
+```commandline
+helm repo update
+```
+
+```commandline
+helm install mysql-operator mysql-operator/mysql-operator --namespace vaaladin
+```
+
+```commandline
+helm upgrade --install vaaladin-mysql-db mysql-operator/mysql-innodbcluster -n vaaladin --version 2.1.3 --values mysql-values.yaml
+```
+
+### Ingress
+
+```commandline
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
+```
+
+### Monitoring
 
 We will be using https://artifacthub.io/packages/helm/prometheus-community/kube-prometheus-stack for monitoring, logging
 and alerting requirements. This will help to profile a typical Vaadin application resources footprint under load.
 
 ```commandline
 helm repo add grafana https://grafana.github.io/helm-charts
-helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-helm repo update
-kubectl create ns vaaladin
-helm install --values loki-values.yaml loki --namespace=vaaladin grafana/loki
-helm upgrade --install kube-prometheus-stack prometheus-community/kube-prometheus-stack -n vaaladin
-
 ```
+
+```commandline
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+```
+
+```commandline
+helm repo update
+```
+
+```commandline
+helm install --values loki-values.yaml loki --namespace=vaaladin grafana/loki
+```
+
+```commandline
+helm upgrade --install kube-prometheus-stack prometheus-community/kube-prometheus-stack -n vaaladin
+```
+
+Import [Grafana Dashboard](https://grafana.com/grafana/dashboards/12900-springboot-apm-dashboard/)
+
+![img.png](img.png)
