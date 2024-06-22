@@ -11,6 +11,7 @@
 #COPY --from=builder application/ ./
 #ENTRYPOINT ["java", "org.springframework.boot.loader.launch.JarLauncher"]
 
+# Layered jar not working for a Vaadin application
 
 FROM eclipse-temurin:22-jdk
 ARG JAR_FILE=target/*.jar

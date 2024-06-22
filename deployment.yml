@@ -11,7 +11,6 @@ spec:
     type: RollingUpdate
     rollingUpdate:
       maxSurge: 1
-      maxUnavailable: 1
   template:
     metadata:
       labels:
@@ -24,25 +23,47 @@ spec:
           imagePullPolicy: "Never"
           livenessProbe:
             httpGet:
-              path: /actuator/health/liveness # The path to check for the liveness probe
-              port: 8080 # The port to check on
-            initialDelaySeconds: 10 # Wait this many seconds before starting the probe
-            periodSeconds: 5 # Check the probe every 10 seconds
+              path: /actuator/health/liveness
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 5
           readinessProbe:
             httpGet:
-              path: /actuator/health/readiness # The path to check for the readiness probe
-              port: 8080 # The port to check on
-            initialDelaySeconds: 12 # Wait this many seconds before starting the probe
-            periodSeconds: 5 # Check the probe every 5 seconds
+              path: /actuator/health/readiness
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 5
           resources:
             requests:
-              memory: "512Mi"
+              memory: "256Mi"
               cpu: "500m"
             limits:
-              memory: "512Mi"
+              memory: "256Mi"
               cpu: "800m"
           ports:
             - containerPort: 8080
+              name: web
           env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: local
             - name: JAVA_OPTS
-              value: "-XX:MaxRAMPercentage=70 -XX:InitialRAMPercentage=70 -XX:+UseZGC -XX:+ZGenerational"
+              value: "-XX:MaxRAMPercentage=80 -XX:InitialRAMPercentage=80 -XX:+UseZGC -XX:+ZGenerational"
+---
+## setup pod monitor
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: vaaladin-pod-monitor
+  labels:
+    release: kube-prometheus-stack
+spec:
+  selector:
+    matchLabels:
+      app: vaaladin
+  podMetricsEndpoints:
+    - port: web
+      path: /actuator/prometheus
+      interval: 5s
+      scheme: http
+      tlsConfig:
+        insecureSkipVerify: true

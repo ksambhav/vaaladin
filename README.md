@@ -93,7 +93,7 @@ and alerting requirements. This will help to profile a typical Vaadin applicatio
 ```commandline
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 helm repo update
-kubectl create ns monitoring
-helm upgrade --install kube-prometheus-stack prometheus-community/kube-prometheus-stack -n monitoring
+kubectl create ns vaaladin
+helm upgrade --install kube-prometheus-stack prometheus-community/kube-prometheus-stack -n vaaladin
 
 ```
