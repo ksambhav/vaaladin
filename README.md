@@ -85,15 +85,17 @@ The sample application is packaged as Docker container which can be deployed as 
 deployment. Here we will demonstrate deployment using Kubernetes (just for fun). This is not recommendation for a
 production grade environment.
 
-### Installing `kube-prometheus-stack`
+### Installing `Grafana Loki` & `kube-prometheus-stack`
 
 We will be using https://artifacthub.io/packages/helm/prometheus-community/kube-prometheus-stack for monitoring, logging
 and alerting requirements. This will help to profile a typical Vaadin application resources footprint under load.
 
 ```commandline
+helm repo add grafana https://grafana.github.io/helm-charts
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 helm repo update
 kubectl create ns vaaladin
+helm install --values loki-values.yaml loki --namespace=vaaladin grafana/loki
 helm upgrade --install kube-prometheus-stack prometheus-community/kube-prometheus-stack -n vaaladin
 
 ```
