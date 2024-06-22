@@ -78,3 +78,22 @@ Vaadin web applications are full-stack and include both client-side and server-s
 - Ask questions on [Stack Overflow](https://stackoverflow.com/questions/tagged/vaadin) or join
   our [Discord channel](https://discord.gg/MYFq5RTbBn).
 - Report issues, create pull requests in [GitHub](https://github.com/vaadin/platform).
+
+## Deployment
+
+The sample application is packaged as Docker container which can be deployed as Docker compose or as a Kubernetes
+deployment. Here we will demonstrate deployment using Kubernetes (just for fun). This is not recommendation for a
+production grade environment.
+
+### Installing `kube-prometheus-stack`
+
+We will be using https://artifacthub.io/packages/helm/prometheus-community/kube-prometheus-stack for monitoring, logging
+and alerting requirements. This will help to profile a typical Vaadin application resources footprint under load.
+
+```commandline
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo update
+kubectl create ns monitoring
+helm upgrade --install kube-prometheus-stack prometheus-community/kube-prometheus-stack -n monitoring
+
+```
