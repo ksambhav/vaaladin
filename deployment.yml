@@ -38,7 +38,7 @@ spec:
               memory: "256Mi"
               cpu: "500m"
             limits:
-              memory: "256Mi"
+              memory: "512Mi"
           ports:
             - containerPort: 8080
               name: web
@@ -59,6 +59,16 @@ spec:
                 secretKeyRef:
                   name: vaaladin-mysql-db-cluster-secret
                   key: rootPassword
+            - name: GOOGLE_OAUTH_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: google-secret
+                  key: client_id
+            - name: GOOGLE_OAUTH_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: google-secret
+                  key: client_secret
             - name: JAVA_OPTS
               value: "-XX:MaxRAMPercentage=80 -XX:InitialRAMPercentage=80 -XX:+UseZGC -XX:+ZGenerational"
 ---
@@ -80,6 +90,10 @@ metadata:
   name: vaaladin-ingress
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/affinity: "cookie"
+    nginx.ingress.kubernetes.io/session-cookie-name: "JSESSIONID"
+    nginx.ingress.kubernetes.io/session-cookie-expires: "172800"
+    nginx.ingress.kubernetes.io/session-cookie-max-age: "172800"
 spec:
   ingressClassName: nginx
   rules:
@@ -93,6 +107,16 @@ spec:
                 name: vaaladin-service
                 port:
                   number: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: infra-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
     - host: grafana.local
       http:
         paths:

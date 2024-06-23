@@ -80,12 +80,11 @@ Vaadin web applications are full-stack and include both client-side and server-s
 - Report issues, create pull requests in [GitHub](https://github.com/vaadin/platform).
 
 ## Running locally using Docker
-
 //TODO
 
-## Deployment
+## Deployment using Kubernetes
 
-The application is packaged as Docker container which can be deployed as Docker compose or as a Kubernetes
+The application is packaged as Docker image which can be deployed as Docker compose or as a Kubernetes
 deployment. Here we will demonstrate deployment using Kubernetes running as
 a [Docker Desktop](https://www.docker.com/products/docker-desktop/) (just for fun ;-p). These are **NOT** a
 recommendation
@@ -117,12 +116,11 @@ helm install mysql-operator mysql-operator/mysql-operator --namespace vaaladin
 helm upgrade --install vaaladin-mysql-db mysql-operator/mysql-innodbcluster -n vaaladin --version 2.1.3 --values mysql-values.yaml
 ```
 
-### Ingress
+### NGINX Ingress
 
 ```commandline
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
 ```
-
 ### Monitoring
 
 We will be using https://artifacthub.io/packages/helm/prometheus-community/kube-prometheus-stack for monitoring, logging

@@ -1,5 +1,6 @@
 package com.samsoft;
 
+import com.samsoft.auth.SecurityService;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.html.H1;
@@ -8,6 +9,7 @@ import com.vaadin.flow.component.orderedlayout.Scroller;
 import com.vaadin.flow.component.sidenav.SideNav;
 import com.vaadin.flow.component.sidenav.SideNavItem;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.spring.security.AuthenticationContext;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 import jakarta.annotation.security.RolesAllowed;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +19,12 @@ import lombok.extern.slf4j.Slf4j;
 @RolesAllowed({"ROLE_ADMIN", "ROLE_USER"})
 public class MainLayout extends AppLayout {
 
-    public MainLayout() {
+    private final transient AuthenticationContext authContext;
+    private final SecurityService securityService;
+
+    public MainLayout(SecurityService securityService, AuthenticationContext authContext) {
+        this.authContext = authContext;
+        this.securityService = securityService;
         DrawerToggle toggle = new DrawerToggle();
         H1 title = new H1("Vaaladin");
         title.getStyle().set("font-size", "var(--lumo-font-size-l)")
@@ -27,7 +34,15 @@ public class MainLayout extends AppLayout {
         scroller.setClassName(LumoUtility.Padding.SMALL);
         addToDrawer(scroller);
         addToNavbar(toggle, title);
+       /* if (securityService.getAuthenticatedUser() != null) {
+            Button logout = new Button("Logout", click ->
+                    securityService.logout());
+            header = new HorizontalLayout(logo, logout);
+        } else {
+            header = new HorizontalLayout(logo);
+        }*/
         log.debug("Main layout constructor");
+
     }
 
     private static SideNav getSideNav() {
