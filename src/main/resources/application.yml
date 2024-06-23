@@ -11,6 +11,13 @@ spring:
     url: ${DB_URL}
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_OAUTH_CLIENT_ID}
+            client-secret: ${GOOGLE_OAUTH_CLIENT_SECRET}
 vaadin:
   launch-browser: false
 logging:
@@ -35,3 +42,4 @@ management:
   metrics:
     tags:
       application: ${spring.application.name}
+

@@ -13,8 +13,7 @@
 
 # Layered jar not working for a Vaadin application
 
-FROM eclipse-temurin:22-jdk-jammy
-RUN apt update && apt install -y curl
+FROM eclipse-temurin:22-jre-jammy
 ARG JAR_FILE=target/*.jar
 COPY ${JAR_FILE} application.jar
 ENTRYPOINT ["java", "-jar","application.jar"]

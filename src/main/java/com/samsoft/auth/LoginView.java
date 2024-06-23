@@ -1,5 +1,6 @@
 package com.samsoft.auth;
 
+import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.BeforeEnterEvent;
@@ -9,9 +10,11 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 
 @Route("login")
-@PageTitle("Login | Register | SamSoft")
+@PageTitle("Login")
 @AnonymousAllowed
 public class LoginView extends VerticalLayout implements BeforeEnterObserver {
+
+    private static final String OAUTH_URL = "/oauth2/authorization/google";
 
     private final LoginForm login = new LoginForm();
 
@@ -23,12 +26,14 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
         login.setAction("login");
         login.setForgotPasswordButtonVisible(true);
         add(login);
+        Anchor loginLink = new Anchor(OAUTH_URL, "Login with Google");
+        loginLink.setRouterIgnore(true);
+        add(loginLink);
     }
 
     @Override
-    public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {
-        // inform the user about an authentication error
-        if (beforeEnterEvent.getLocation()
+    public void beforeEnter(BeforeEnterEvent event) {
+        if (event.getLocation()
                 .getQueryParameters()
                 .getParameters()
                 .containsKey("error")) {
