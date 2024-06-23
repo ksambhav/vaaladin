@@ -22,7 +22,8 @@ public class AuthModule extends VaadinWebSecurity {
                 auth.requestMatchers(
                         AntPathRequestMatcher.antMatcher(HttpMethod.GET, "/images/*.png")).permitAll());  // <3>
         super.configure(http);
-        setLoginView(http, LoginView.class); // <4>
+        setLoginView(http, LoginView.class);
+        http.formLogin(c -> c.defaultSuccessUrl("/", true));
     }
 
     @Bean

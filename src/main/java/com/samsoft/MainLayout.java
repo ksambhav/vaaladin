@@ -30,7 +30,7 @@ public class MainLayout extends AppLayout {
         log.debug("Main layout constructor");
     }
 
-    private SideNav getSideNav() {
+    private static SideNav getSideNav() {
         SideNav sideNav = new SideNav();
         sideNav.addItem(
                 new SideNavItem("Dashboard", "/dashboard",
