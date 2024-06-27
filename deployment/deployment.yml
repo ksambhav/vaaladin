@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: vaaladin
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: vaaladin
@@ -36,7 +36,7 @@ spec:
           resources:
             requests:
               memory: "512Mi"
-              cpu: "500m"
+              cpu: "200m"
             limits:
               memory: "512Mi"
           ports:

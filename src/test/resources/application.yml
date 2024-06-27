@@ -1,0 +1,29 @@
+server:
+  port: ${PORT:8080}
+spring:
+  output:
+    ansi:
+      enabled: ALWAYS
+  application:
+    name: vaaladin
+  main:
+    banner-mode: off
+  mustache:
+    check-template-location: false
+  datasource:
+    url: jdbc:h2:mem:optosoft;DB_CLOSE_DELAY=-1;IGNORECASE=TRUE;MODE=MYSQL;DATABASE_TO_UPPER=FALSE;DB_CLOSE_ON_EXIT=true;CASE_INSENSITIVE_IDENTIFIERS=true
+    username: sa
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: test
+            client-secret: test
+vaadin:
+  launch-browser: false
+logging:
+  config: classpath:logback.xml
+management:
+  endpoints:
+    enabled-by-default: false

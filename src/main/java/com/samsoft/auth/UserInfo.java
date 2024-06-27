@@ -18,7 +18,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "USER_INFO")
+@Table(name = "user_info")
 public class UserInfo implements UserDetails {
 
     @CreatedDate

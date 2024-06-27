@@ -113,7 +113,7 @@ helm install mysql-operator mysql-operator/mysql-operator --namespace vaaladin
 ```
 
 ```commandline
-helm upgrade --install vaaladin-mysql-db mysql-operator/mysql-innodbcluster -n vaaladin --version 2.1.3 --values mysql-values.yaml
+helm upgrade --install vaaladin-mysql-db mysql-operator/mysql-innodbcluster -n vaaladin --version 2.1.3 --values deployment/mysql-values.yaml
 ```
 
 ### NGINX Ingress
@@ -139,7 +139,7 @@ helm repo update
 ```
 
 ```commandline
-helm install --values loki-values.yaml loki --namespace=vaaladin grafana/loki
+helm install --values deployment/loki-values.yaml loki --namespace=vaaladin grafana/loki
 ```
 
 ```commandline

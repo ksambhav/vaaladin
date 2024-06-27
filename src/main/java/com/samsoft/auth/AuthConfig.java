@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,10 +25,16 @@ public class AuthConfig extends VaadinWebSecurity {
         http.authorizeHttpRequests(auth -> {
             auth.requestMatchers(antMatcher(HttpMethod.GET, "/images/*.png")).permitAll();
             auth.requestMatchers(antMatcher(HttpMethod.GET, "/actuator/**")).permitAll();
+            auth.requestMatchers("/h2-console/**").permitAll();
         });
         setLoginView(http, LoginView.class);
         http.oauth2Login(c -> c.loginPage(LOGIN_URL).permitAll());
         super.configure(http);
+    }
+
+    @Override
+    protected void configure(WebSecurity web) throws Exception {
+        web.ignoring().requestMatchers("/h2-console/**");
     }
 
     @Bean
