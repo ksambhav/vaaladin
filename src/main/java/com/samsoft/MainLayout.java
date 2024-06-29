@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 public class MainLayout extends AppLayout {
 
     private final transient AuthenticationContext authContext;
-    private final SecurityService securityService;
+    private final transient SecurityService securityService;
 
     public MainLayout(SecurityService securityService, AuthenticationContext authContext) {
         this.authContext = authContext;

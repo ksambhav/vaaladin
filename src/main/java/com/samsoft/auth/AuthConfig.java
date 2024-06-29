@@ -26,6 +26,7 @@ public class AuthConfig extends VaadinWebSecurity {
             auth.requestMatchers(antMatcher(HttpMethod.GET, "/images/*.png")).permitAll();
             auth.requestMatchers(antMatcher(HttpMethod.GET, "/actuator/**")).permitAll();
             auth.requestMatchers("/h2-console/**").permitAll();
+            auth.requestMatchers("/registration").permitAll();
         });
         setLoginView(http, LoginView.class);
         http.oauth2Login(c -> c.loginPage(LOGIN_URL).permitAll());
