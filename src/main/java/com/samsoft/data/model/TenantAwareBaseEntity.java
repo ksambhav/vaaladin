@@ -1,4 +1,4 @@
-package com.samsoft.data;
+package com.samsoft.data.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

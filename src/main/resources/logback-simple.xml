@@ -6,6 +6,6 @@
     <root level="WARN">
         <appender-ref ref="CONSOLE"/>
     </root>
-    <logger name="org.springframework" level="INFO"/>
+    <logger name="org.springframework.security" level="INFO"/>
     <logger name="com.samsoft" level="DEBUG"/>
 </configuration>

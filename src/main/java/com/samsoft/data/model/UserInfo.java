@@ -1,33 +1,26 @@
-package com.samsoft.auth;
+package com.samsoft.data.model;
 
-import lombok.Getter;
+import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.relational.core.mapping.Table;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
-@Getter
-@Setter
+@Data
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @Table(name = "user_info")
-public class UserInfo implements UserDetails {
-
-    @CreatedDate
-    private LocalDateTime createdOn;
-    @LastModifiedDate
-    private LocalDateTime updatedOn;
-    @Id
-    private Long id;
+public class UserInfo extends BaseEntity implements UserDetails {
+    @NotBlank
     private String username;
+    private String mobile;
+    @NotBlank
     private String fullName;
     //    private Set<GrantedAuthority> authorities;
     private boolean accountNonExpired;
@@ -36,11 +29,12 @@ public class UserInfo implements UserDetails {
     private boolean enabled;
     private String password;
 
-    public UserInfo(String username, String fullName, String password, boolean enabled) {
+    public UserInfo(String username, String mobile, String fullName, String password, boolean enabled) {
         this.username = username;
         this.password = password;
         this.enabled = enabled;
         this.fullName = fullName;
+        this.mobile = mobile;
     }
 
     @Override

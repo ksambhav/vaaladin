@@ -1,4 +1,4 @@
-package com.samsoft.auth;
+package com.samsoft.auth.login;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Anchor;
@@ -9,8 +9,6 @@ import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Route("login")
 @PageTitle("Login")
@@ -18,7 +16,6 @@ import org.slf4j.LoggerFactory;
 public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 
     private static final String OAUTH_URL = "/oauth2/authorization/google";
-    private static final Logger log = LoggerFactory.getLogger(LoginView.class);
 
     private final LoginForm login = new LoginForm();
 
@@ -36,7 +33,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
         Button register = new Button("Register");
         register.addClickListener(e ->
                 register.getUI().ifPresent(ui ->
-                        ui.navigate("registration"))
+                        ui.navigate("register"))
         );
         add(register);
 

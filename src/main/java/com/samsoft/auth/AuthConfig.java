@@ -1,5 +1,6 @@
 package com.samsoft.auth;
 
+import com.samsoft.auth.login.LoginView;
 import com.vaadin.flow.spring.security.VaadinWebSecurity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;

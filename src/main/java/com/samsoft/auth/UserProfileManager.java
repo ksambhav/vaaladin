@@ -1,13 +1,9 @@
 package com.samsoft.auth;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import com.samsoft.auth.register.UserRegistrationForm;
 
 public interface UserProfileManager {
 
-    void register(UserRegistrationRequest request);
+    void register(UserRegistrationForm request);
 
-    record UserRegistrationRequest(@NotBlank String fullName, @Email String email, @NotNull char[] password) {
-    }
 }
