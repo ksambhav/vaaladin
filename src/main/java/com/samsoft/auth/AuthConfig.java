@@ -3,6 +3,7 @@ package com.samsoft.auth;
 import com.samsoft.auth.login.LoginView;
 import com.vaadin.flow.spring.security.VaadinWebSecurity;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -21,6 +22,9 @@ public class AuthConfig extends VaadinWebSecurity {
 
     private static final String LOGIN_URL = "/login";
 
+    @Autowired
+    private GoogleOIDCService oidcUserService;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(auth -> {
@@ -28,9 +32,13 @@ public class AuthConfig extends VaadinWebSecurity {
             auth.requestMatchers(antMatcher(HttpMethod.GET, "/actuator/**")).permitAll();
             auth.requestMatchers("/h2-console/**").permitAll();
             auth.requestMatchers("/registration").permitAll();
+            auth.requestMatchers("/login").permitAll();
         });
         setLoginView(http, LoginView.class);
-        http.oauth2Login(c -> c.loginPage(LOGIN_URL).permitAll());
+        http.oauth2Login(c -> {
+            c.loginPage(LOGIN_URL).permitAll();
+            c.userInfoEndpoint(a -> a.oidcUserService(oidcUserService));
+        });
         super.configure(http);
     }
 

@@ -1,6 +1,5 @@
 package com.samsoft.auth.login;
 
-import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -30,12 +29,6 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
         Anchor loginLink = new Anchor(OAUTH_URL, "Login with Google");
         loginLink.setRouterIgnore(true);
         add(loginLink);
-        Button register = new Button("Register");
-        register.addClickListener(e ->
-                register.getUI().ifPresent(ui ->
-                        ui.navigate("register"))
-        );
-        add(register);
 
     }
 

@@ -4,6 +4,7 @@ import com.samsoft.auth.SecurityService;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
@@ -11,19 +12,14 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.Scroller;
 import com.vaadin.flow.component.sidenav.SideNav;
 import com.vaadin.flow.component.sidenav.SideNavItem;
-import com.vaadin.flow.spring.security.AuthenticationContext;
+import com.vaadin.flow.theme.lumo.Lumo;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class MainLayout extends AppLayout {
+public class MainView extends AppLayout {
 
-    private final transient AuthenticationContext authContext;
-    private final transient SecurityService securityService;
-
-    public MainLayout(SecurityService securityService, AuthenticationContext authContext) {
-        this.authContext = authContext;
-        this.securityService = securityService;
+    public MainView(SecurityService securityService) {
         DrawerToggle toggle = new DrawerToggle();
         H1 title = new H1("Vaaladin");
         title.getStyle().set("font-size", "var(--lumo-font-size-l)")
@@ -32,7 +28,6 @@ public class MainLayout extends AppLayout {
         Scroller scroller = new Scroller(nav);
         scroller.setClassName(LumoUtility.Padding.SMALL);
         addToDrawer(scroller);
-        String u = securityService.getAuthenticatedUser().getUsername();
         Button logout = new Button("Log Out ", e -> securityService.logout());
         var header = new HorizontalLayout(toggle, title, logout);
         header.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
@@ -42,6 +37,9 @@ public class MainLayout extends AppLayout {
                 LumoUtility.Padding.Vertical.NONE,
                 LumoUtility.Padding.Horizontal.MEDIUM);
         addToNavbar(header);
+        var themeToggle = new Checkbox("Dark theme", true);
+        themeToggle.addValueChangeListener(e -> setTheme(e.getValue()));
+        addToNavbar(themeToggle);
         log.debug("Main layout constructor");
     }
 
@@ -57,6 +55,11 @@ public class MainLayout extends AppLayout {
         sideNav.setExpanded(true);
         sideNav.setCollapsible(false);
         return sideNav;
+    }
+
+    private void setTheme(boolean dark) {
+        var js = "document.documentElement.setAttribute('theme', $0)";
+        getElement().executeJs(js, dark ? Lumo.DARK : Lumo.LIGHT);
     }
 }
 

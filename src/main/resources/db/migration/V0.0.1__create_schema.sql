@@ -1,21 +1,22 @@
-create table if not exists  user_info (
-    id INT AUTO_INCREMENT primary key,
-	username varchar(50) not null unique,
-	mobile varchar(12) unique,
-	password varchar(500) not null,
-	enabled boolean not null default false,
-	account_non_expired boolean not null default false,
-	account_non_locked boolean not null default false,
-	credentials_non_expired boolean not null default false,
-	created_on date default CURRENT_DATE,
-	updated_on timestamp default CURRENT_TIMESTAMP,
-	version int,
-	tenant_id varchar(64)
+create table if not exists  USER_INFO (
+    ID INT AUTO_INCREMENT primary key,
+	USERNAME varchar(50) not null unique,
+	FULL_NAME varchar(50) not null,
+	MOBILE varchar(12) unique,
+	PASSWORD varchar(500) not null,
+	ENABLED boolean not null default false,
+	ACCOUNT_NON_EXPIRED boolean not null default true,
+	ACCOUNT_NON_LOCKED boolean not null default true,
+	CREDENTIALS_NON_EXPIRED boolean not null default true,
+	CREATED_ON date default CURRENT_DATE,
+	UPDATED_ON timestamp default CURRENT_TIMESTAMP,
+	VERSION int,
+	TENANT_ID varchar(64)
 );
 
-create table if not exists  authorities (
-	username varchar(50) not null,
-	authority varchar(50) not null,
-	constraint fk_authorities_users foreign key(username) references user_info(username)
+create table if not exists  AUTHORITIES (
+	USERNAME varchar(50) not null,
+	AUTHORITY varchar(50) not null,
+	constraint fk_authorities_users foreign key(USERNAME) references USER_INFO(USERNAME)
 );
-create unique index ix_auth_username on authorities (username,authority);
+create unique index ix_auth_username on AUTHORITIES (USERNAME,AUTHORITY);

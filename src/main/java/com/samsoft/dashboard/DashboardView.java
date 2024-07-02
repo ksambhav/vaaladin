@@ -1,6 +1,6 @@
 package com.samsoft.dashboard;
 
-import com.samsoft.MainLayout;
+import com.samsoft.MainView;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
@@ -9,7 +9,7 @@ import jakarta.annotation.security.PermitAll;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Route(value = "/", layout = MainLayout.class)
+@Route(value = "/", layout = MainView.class)
 @PageTitle("Customer")
 @PermitAll
 class DashboardView extends VerticalLayout {

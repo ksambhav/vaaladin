@@ -15,7 +15,7 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-@Table(name = "user_info")
+@Table(name = "USER_INFO")
 public class UserInfo extends BaseEntity implements UserDetails {
     @NotBlank
     private String username;
@@ -23,9 +23,9 @@ public class UserInfo extends BaseEntity implements UserDetails {
     @NotBlank
     private String fullName;
     //    private Set<GrantedAuthority> authorities;
-    private boolean accountNonExpired;
-    private boolean accountNonLocked;
-    private boolean credentialsNonExpired;
+    private boolean accountNonExpired = true;
+    private boolean accountNonLocked = true;
+    private boolean credentialsNonExpired = true;
     private boolean enabled;
     private String password;
 

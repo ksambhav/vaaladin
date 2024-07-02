@@ -1,9 +1,9 @@
 package com.samsoft.auth;
 
-import com.samsoft.auth.register.UserRegistrationForm;
+import com.samsoft.auth.register.RegistrationRequest;
 
 public interface UserProfileManager {
 
-    void register(UserRegistrationForm request);
+    void register(RegistrationRequest request);
 
 }
