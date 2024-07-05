@@ -9,7 +9,7 @@ import jakarta.annotation.security.PermitAll;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Route(value = "/", layout = MainView.class)
+@Route(value = "/dd", layout = MainView.class)
 @PageTitle("Customer")
 @PermitAll
 class DashboardView extends VerticalLayout {
