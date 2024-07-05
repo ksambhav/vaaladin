@@ -2,8 +2,8 @@ package com.samsoft.auth;
 
 import com.samsoft.auth.login.LoginView;
 import com.vaadin.flow.spring.security.VaadinWebSecurity;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -18,12 +18,12 @@ import static org.springframework.security.web.util.matcher.AntPathRequestMatche
 @Slf4j
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class AuthConfig extends VaadinWebSecurity {
 
     private static final String LOGIN_URL = "/login";
 
-    @Autowired
-    private GoogleOIDCService oidcUserService;
+    private final GoogleOIDCService oidcUserService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
