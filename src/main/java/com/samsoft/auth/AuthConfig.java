@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
@@ -27,6 +28,8 @@ class AuthConfig extends VaadinWebSecurity {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        HttpSessionRequestCache requestCache = new HttpSessionRequestCache();
+        requestCache.setMatchingRequestParameterName(null);
         http.authorizeHttpRequests(auth -> {
             auth.requestMatchers(antMatcher(HttpMethod.GET, "/images/*.png")).permitAll();
             auth.requestMatchers(antMatcher(HttpMethod.GET, "/actuator/**")).permitAll();
@@ -34,6 +37,7 @@ class AuthConfig extends VaadinWebSecurity {
             auth.requestMatchers("/registration").permitAll();
             auth.requestMatchers("/login").permitAll();
         });
+        http.requestCache(cache -> cache.requestCache(requestCache));
         setLoginView(http, LoginView.class);
         http.oauth2Login(c -> {
             c.loginPage(LOGIN_URL).permitAll();
