@@ -23,4 +23,5 @@ public class VaaladinApplication implements AppShellConfigurator {
     public static void main(String[] args) {
         SpringApplication.run(VaaladinApplication.class, args);
     }
+
 }
