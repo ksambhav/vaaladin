@@ -14,19 +14,24 @@ import com.vaadin.flow.server.auth.AnonymousAllowed;
 @AnonymousAllowed
 public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 
-    private static final String OAUTH_URL = "/oauth2/authorization/google";
+    private static final String GOOGLE_OAUTH_URL = "/oauth2/authorization/google";
 
     private final LoginForm login = new LoginForm();
 
-    public LoginView() {
-        addClassName("login-view");
+
+    /*        addClassName("login-view");
         setSizeFull();
         setAlignItems(Alignment.CENTER);
         setJustifyContentMode(JustifyContentMode.CENTER);
         login.setAction("login");
         login.setForgotPasswordButtonVisible(true);
-        add(login);
-        Anchor loginLink = new Anchor(OAUTH_URL, "Login with Google");
+        add(login);*/
+
+    public LoginView() {
+        setSizeFull();
+        setJustifyContentMode(JustifyContentMode.CENTER);
+        setAlignItems(Alignment.CENTER);
+        Anchor loginLink = new Anchor(GOOGLE_OAUTH_URL, "Login with Google");
         loginLink.setRouterIgnore(true);
         add(loginLink);
 

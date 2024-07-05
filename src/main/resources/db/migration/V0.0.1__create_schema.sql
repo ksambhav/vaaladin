@@ -2,7 +2,7 @@ create table if not exists  USER_INFO (
     ID INT AUTO_INCREMENT primary key,
 	USERNAME varchar(50) not null unique,
 	FULL_NAME varchar(50) not null,
-	MOBILE varchar(12) unique,
+	PROFILE_PICTURE TEXT,
 	PASSWORD varchar(500) not null,
 	ENABLED boolean not null default false,
 	ACCOUNT_NON_EXPIRED boolean not null default true,

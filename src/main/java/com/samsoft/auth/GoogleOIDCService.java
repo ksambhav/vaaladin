@@ -13,13 +13,16 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 class GoogleOIDCService extends OidcUserService {
 
-    private final UserProfileManager userProfileManager;
+    private final OpenIdLoginHandler openIdLoginHandler;
 
     @Override
     public OidcUser loadUser(OidcUserRequest userRequest) throws OAuth2AuthenticationException {
-        log.debug("Loading oidc user");
-        OidcUser oidcUser = super.loadUser(userRequest);
-        log.debug("Loaded Oidc user = {}", oidcUser.getUserInfo());
+        final var oidcUser = super.loadUser(userRequest);
+        String fullName = oidcUser.getFullName();
+        String email = oidcUser.getEmail();
+        String profilePic = oidcUser.getPicture();
+        var basicUserProfile = new BasicUserProfile(fullName, email, profilePic);
+        openIdLoginHandler.handleLogin(basicUserProfile);
         return oidcUser;
     }
 }

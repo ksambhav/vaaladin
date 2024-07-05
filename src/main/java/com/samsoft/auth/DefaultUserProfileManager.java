@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-class DefaultUserProfileManager implements UserProfileManager, UserDetailsService {
+class DefaultUserProfileManager implements UserDetailsService {
 
     private final UserInfoRepository userInfoRepository;
     private final PasswordEncoder passwordEncoder;
