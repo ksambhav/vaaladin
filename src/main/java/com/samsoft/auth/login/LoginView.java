@@ -19,13 +19,13 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
     private final LoginForm login = new LoginForm();
 
     public LoginView() {
-        addClassName("login-view");
+/*        addClassName("login-view");
         setSizeFull();
         setAlignItems(Alignment.CENTER);
         setJustifyContentMode(JustifyContentMode.CENTER);
         login.setAction("login");
         login.setForgotPasswordButtonVisible(true);
-        add(login);
+        add(login);*/
         Anchor loginLink = new Anchor(OAUTH_URL, "Login with Google");
         loginLink.setRouterIgnore(true);
         add(loginLink);

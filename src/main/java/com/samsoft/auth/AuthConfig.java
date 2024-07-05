@@ -19,7 +19,7 @@ import static org.springframework.security.web.util.matcher.AntPathRequestMatche
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-public class AuthConfig extends VaadinWebSecurity {
+class AuthConfig extends VaadinWebSecurity {
 
     private static final String LOGIN_URL = "/login";
 
@@ -43,7 +43,7 @@ public class AuthConfig extends VaadinWebSecurity {
     }
 
     @Override
-    protected void configure(WebSecurity web) throws Exception {
+    protected void configure(WebSecurity web) {
         web.ignoring().requestMatchers("/h2-console/**");
     }
 

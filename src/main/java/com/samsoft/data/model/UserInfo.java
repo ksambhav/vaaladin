@@ -19,7 +19,7 @@ import java.util.List;
 public class UserInfo extends BaseEntity implements UserDetails {
     @NotBlank
     private String username;
-    private String mobile;
+    private String profilePicture;
     @NotBlank
     private String fullName;
     //    private Set<GrantedAuthority> authorities;
@@ -29,12 +29,12 @@ public class UserInfo extends BaseEntity implements UserDetails {
     private boolean enabled;
     private String password;
 
-    public UserInfo(String username, String mobile, String fullName, String password, boolean enabled) {
+    public UserInfo(String username, String profilePicture, String fullName, String password, boolean enabled) {
         this.username = username;
         this.password = password;
         this.enabled = enabled;
         this.fullName = fullName;
-        this.mobile = mobile;
+        this.profilePicture = profilePicture;
     }
 
     @Override
