@@ -983,12 +983,12 @@ grafana:
   ingress:
     ## If true, Grafana Ingress will be created
     ##
-    enabled: false
+    enabled: true
 
     ## IngressClassName for Grafana Ingress.
     ## Should be provided if Ingress is enable.
     ##
-    # ingressClassName: nginx
+    ingressClassName: nginx
 
     ## Annotations for Grafana Ingress
     ##
@@ -1005,8 +1005,8 @@ grafana:
     ##
     # hosts:
     #   - grafana.domain.com
-    hosts: [ ]
-
+    hosts:
+      - grafana.local
     ## Path for grafana ingress
     path: /
 
@@ -1094,7 +1094,7 @@ grafana:
       # datasourceUid: Jaeger
       # traceIdLabelName: trace_id
       alertmanager:
-        enabled: true
+        enabled: false
         name: Alertmanager
         uid: alertmanager
         handleGrafanaManagedAlerts: false
@@ -1169,12 +1169,12 @@ grafana:
 ## Flag to disable all the kubernetes component scrapers
 ##
 kubernetesServiceMonitors:
-  enabled: true
+  enabled: false
 
 ## Component scraping the kube api server
 ##
 kubeApiServer:
-  enabled: true
+  enabled: false
   tlsConfig:
     serverName: kubernetes
     insecureSkipVerify: false
@@ -1248,7 +1248,7 @@ kubeApiServer:
 ## Component scraping the kubelet and kubelet-hosted cAdvisor
 ##
 kubelet:
-  enabled: true
+  enabled: false
   namespace: kube-system
 
   serviceMonitor:
@@ -1454,7 +1454,7 @@ kubelet:
 ## Component scraping the kube controller manager
 ##
 kubeControllerManager:
-  enabled: true
+  enabled: false
 
   ## If your kube controller manager is not deployed as a pod, specify IPs it can be found on
   ##
@@ -1557,7 +1557,7 @@ kubeControllerManager:
 ## Component scraping coreDns. Use either this or kubeDns
 ##
 coreDns:
-  enabled: true
+  enabled: false
   service:
     enabled: true
     port: 9153
@@ -1729,7 +1729,7 @@ kubeDns:
 ## Component scraping etcd
 ##
 kubeEtcd:
-  enabled: true
+  enabled: false
 
   ## If your etcd is not deployed as a pod, specify IPs it can be found on
   ##
@@ -2098,7 +2098,7 @@ kube-state-metrics:
 ## Deploy node exporter as a daemonset to all nodes
 ##
 nodeExporter:
-  enabled: true
+  enabled: false
   operatingSystems:
     linux:
       enabled: true

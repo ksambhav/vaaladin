@@ -80,6 +80,7 @@ Vaadin web applications are full-stack and include both client-side and server-s
 - Report issues, create pull requests in [GitHub](https://github.com/vaadin/platform).
 
 ## Running locally using Docker
+
 //TODO
 
 ## Deployment using Kubernetes
@@ -100,6 +101,7 @@ cluster
 ```commandline
 kubectl create ns vaaladin
 ```
+
 ```commandline
 helm repo add mysql-operator https://mysql.github.io/mysql-operator/
 ```
@@ -113,7 +115,7 @@ helm install mysql-operator mysql-operator/mysql-operator --namespace vaaladin
 ```
 
 ```commandline
-helm upgrade --install vaaladin-mysql-db mysql-operator/mysql-innodbcluster -n vaaladin --version 2.1.3 --values deployment/mysql-values.yaml
+helm upgrade --install vaaladin-mysql-db mysql-operator/mysql-innodbcluster -n vaaladin --values deployment/mysql-values.yaml
 ```
 
 ### NGINX Ingress
@@ -121,6 +123,7 @@ helm upgrade --install vaaladin-mysql-db mysql-operator/mysql-innodbcluster -n v
 ```commandline
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
 ```
+
 ### Monitoring
 
 We will be using https://artifacthub.io/packages/helm/prometheus-community/kube-prometheus-stack for monitoring, logging
@@ -143,9 +146,23 @@ helm install --values deployment/loki-values.yaml loki --namespace=vaaladin graf
 ```
 
 ```commandline
-helm upgrade --install kube-prometheus-stack prometheus-community/kube-prometheus-stack -n vaaladin
+helm upgrade --install kube-prometheus-stack prometheus-community/kube-prometheus-stack -f deployment/prom-values.yaml -n vaaladin
 ```
 
 Import [Grafana Dashboard](https://grafana.com/grafana/dashboards/12900-springboot-apm-dashboard/)
 
 ![img.png](img.png)
+
+### Install Kafka using [Strimzi](https://strimzi.io/)
+
+```commandline
+kubectl create namespace kafka
+```
+
+```commandline
+kubectl create -f 'https://strimzi.io/install/latest?namespace=kafka' -n kafka
+```
+
+```commandline
+kubectl apply -f deployment\strimzi.yaml -n kafka
+```

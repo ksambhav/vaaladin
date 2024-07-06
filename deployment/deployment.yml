@@ -108,32 +108,12 @@ spec:
                 port:
                   number: 80
 ---
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: infra-ingress
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
-spec:
-  ingressClassName: nginx
-  rules:
-    - host: grafana.local
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: kube-prometheus-stack-grafana
-                port:
-                  number: 80
----
 apiVersion: monitoring.coreos.com/v1
 kind: PodMonitor
 metadata:
   name: vaaladin-pod-monitor
   labels:
-    release: kube-prometheus-stack
+    release: kube-prom-stack
 spec:
   selector:
     matchLabels:
