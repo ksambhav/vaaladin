@@ -9,14 +9,14 @@
     <packaging>jar</packaging>
     <properties>
         <java.version>22</java.version>
-        <vaadin.version>24.4.1</vaadin.version>
-        <spring-modulith.version>1.2.0</spring-modulith.version>
+        <vaadin.version>24.4.10</vaadin.version>
+        <spring-modulith.version>1.2.3</spring-modulith.version>
         <mysql.version>8.4.0</mysql.version>
     </properties>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.3.1</version>
+        <version>3.3.3</version>
         <relativePath/>
     </parent>
     <repositories>
