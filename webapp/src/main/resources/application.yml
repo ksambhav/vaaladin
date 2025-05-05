@@ -1,0 +1,53 @@
+logging:
+  level:
+    root: error
+    org.springframework: warn
+    com.samsoft: info
+server:
+  port: ${PORT:8080}
+
+spring:
+  application:
+    name: trueyes
+  main:
+    banner-mode: "off"
+  jpa:
+    defer-datasource-initialization: true
+  mustache:
+    check-template-location: false
+  sql:
+    init:
+      mode: always
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_OAUTH_CLIENT_ID}
+            client-secret: ${GOOGLE_OAUTH_CLIENT_SECRET}
+            user-info-uri: "https://www.googleapis.com/oauth2/v3/userinfo"
+  output:
+    ansi:
+      enabled: "always"
+vaadin:
+  allowed-packages: com.vaadin,org.vaadin,com.samsoft.trueyes
+  devmode-caching: false
+  launch-browser: false
+management:
+  endpoints:
+    enabled-by-default: true
+    web:
+      exposure:
+        include: '*'
+  health:
+    livenessstate:
+      enabled: true
+    readinessstate:
+      enabled: true
+  endpoint:
+    health:
+      probes:
+        enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
