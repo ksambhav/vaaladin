@@ -2,7 +2,7 @@ logging:
   level:
     root: error
     org.springframework: warn
-    com.samsoft: info
+    com.samsoft: debug
 server:
   port: ${PORT:8080}
 
@@ -12,12 +12,26 @@ spring:
   main:
     banner-mode: "off"
   jpa:
+    # enable JPA to auto-create the database schema and tables for JPA entities
+    generate-ddl: true
     defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: update
   mustache:
     check-template-location: false
   sql:
     init:
       mode: always
+  datasource:
+    url: jdbc:postgresql://localhost:5432/samsoft
+    username: postgres
+    password: password
+    driver-class-name: org.postgresql.Driver
+    # add property for pool size and connection timeout
+    hikari:
+      pool-name: samsoft
+      maximum-pool-size: 5
+      connection-timeout: 500
   security:
     oauth2:
       client:
@@ -32,7 +46,7 @@ spring:
 vaadin:
   allowed-packages: com.vaadin,org.vaadin,com.samsoft.trueyes
   devmode-caching: false
-  launch-browser: false
+  launch-browser: true
 management:
   endpoints:
     enabled-by-default: true

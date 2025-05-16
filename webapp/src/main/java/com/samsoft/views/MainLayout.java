@@ -45,7 +45,6 @@ public class MainLayout extends AppLayout {
         setPrimarySection(Section.DRAWER);
         addDrawerContent();
         addHeaderContent();
-        log.info("MainLayout initialized. Auth = {}", authContext.getPrincipalName());
     }
 
     private void addHeaderContent() {
