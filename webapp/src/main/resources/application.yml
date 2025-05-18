@@ -46,7 +46,7 @@ spring:
 vaadin:
   allowed-packages: com.vaadin,org.vaadin,com.samsoft.trueyes
   devmode-caching: false
-  launch-browser: true
+  launch-browser: false
 management:
   endpoints:
     enabled-by-default: true

@@ -15,7 +15,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
  * and some desktop browsers.
  */
 @SpringBootApplication
-@Theme(value = "my-app", variant = Lumo.LIGHT)
+@Theme(value = "my-app", variant = Lumo.DARK)
 @EnableJpaAuditing
 @Push
 public class VaadinKickStartApp implements AppShellConfigurator {

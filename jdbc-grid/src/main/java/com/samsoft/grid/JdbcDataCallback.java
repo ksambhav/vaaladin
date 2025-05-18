@@ -20,6 +20,7 @@ import java.sql.Statement;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
@@ -35,6 +36,8 @@ public class JdbcDataCallback implements
     private final LinkedHashSet<String> columns = new LinkedHashSet<>();
     @Setter
     private String fqn;
+    @Setter
+    private Consumer<LinkedHashSet<String>> onColumnChangeHandler;
 
     public JdbcDataCallback(Grid<Map<String, Object>> grid, DataSource dataSource, String fqn) {
         this.dataSource = dataSource;
@@ -109,9 +112,15 @@ public class JdbcDataCallback implements
                 columns.add(columnName);
                 grid.addColumn((ValueProvider<Map<String, Object>, Object>) stringObjectMap -> stringObjectMap.get(columnName))
                         .setSortProperty(columnName)
+                        .setKey(columnName)
+                        .setAutoWidth(true)
+                        .setResizable(true)
                         .setHeader(WordUtils.capitalizeFully(columnName.replace('_', ' ')));
             }
             log.info("Grid columns configured with : {} columns", columns.size());
+            if (onColumnChangeHandler != null) {
+                onColumnChangeHandler.accept(columns);
+            }
         } else {
             log.debug("Grid already configured correctly");
         }
