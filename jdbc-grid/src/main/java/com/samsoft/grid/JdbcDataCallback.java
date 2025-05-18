@@ -1,5 +1,6 @@
 package com.samsoft.grid;
 
+import com.vaadin.flow.component.grid.ColumnTextAlign;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.data.provider.CallbackDataProvider;
 import com.vaadin.flow.data.provider.Query;
@@ -24,6 +25,7 @@ import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 @Slf4j
 @NotThreadSafe
@@ -34,15 +36,17 @@ public class JdbcDataCallback implements
     private final DataSource dataSource;
     private final Grid<Map<String, Object>> grid;
     private final LinkedHashSet<String> columns = new LinkedHashSet<>();
+    private final PaginationControls paginationControls;
     @Setter
     private String fqn;
     @Setter
     private Consumer<LinkedHashSet<String>> onColumnChangeHandler;
 
-    public JdbcDataCallback(Grid<Map<String, Object>> grid, DataSource dataSource, String fqn) {
+    public JdbcDataCallback(Grid<Map<String, Object>> grid, DataSource dataSource, String fqn, PaginationControls paginationControls) {
         this.dataSource = dataSource;
         this.fqn = fqn;
         this.grid = grid;
+        this.paginationControls = paginationControls;
     }
 
     @SneakyThrows
@@ -54,19 +58,26 @@ public class JdbcDataCallback implements
         return cols;
     }
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     @Override
     @SneakyThrows
     public Stream<Map<String, Object>> fetch(Query<Map<String, Object>, String> query) {
         if (isBlank(fqn)) {
             return Stream.empty();
         }
-        int limit = query.getLimit();
-        int offset = query.getOffset();
+        query.getLimit();
+        query.getOffset();
+        int limit = paginationControls.getPageSize();
+        int offset = paginationControls.calculateOffset();
         List<QuerySortOrder> sortOrders = query.getSortOrders();
         StringBuilder sqlBuilder = new StringBuilder("SELECT * FROM ");
         sqlBuilder.append(fqn);
+        query.getFilter().ifPresent(f -> {
+            if (isNotBlank(f)) {
+                sqlBuilder.append(" where ").append(f).append(' ');
+            }
+        });
         if (sortOrders != null && !sortOrders.isEmpty()) {
-            // add sort orders to the query in sb strinbuilder object
             if (sortOrders.size() == 1) {
                 sqlBuilder.append(" ORDER BY ").append(sortOrders.get(0).getSorted()).append(" ").append(sortOrders.get(0).getDirection() == SortDirection.ASCENDING ? "asc" : "desc");
             } else {
@@ -83,7 +94,7 @@ public class JdbcDataCallback implements
         sqlBuilder.append(" limit ").append(limit).append(" offset ").append(offset);
         var sql = sqlBuilder.toString();
         Stream.Builder<Map<String, Object>> builder = Stream.builder();
-        log.debug("Running sql={}", sql);
+        log.debug("Running sql={}, filters = {}", sql, query.getFilter());
         ResultSetMetaData metadata;
         try (Connection connection = dataSource.getConnection(); Statement statement = connection.createStatement(); ResultSet rs = statement.executeQuery(sql)) {
             metadata = rs.getMetaData();
@@ -114,6 +125,7 @@ public class JdbcDataCallback implements
                         .setSortProperty(columnName)
                         .setKey(columnName)
                         .setAutoWidth(true)
+                        .setTextAlign(columnType.toLowerCase().contains("int") || columnType.toLowerCase().contains("float") ? ColumnTextAlign.END : ColumnTextAlign.START)
                         .setResizable(true)
                         .setHeader(WordUtils.capitalizeFully(columnName.replace('_', ' ')));
             }
@@ -121,17 +133,28 @@ public class JdbcDataCallback implements
             if (onColumnChangeHandler != null) {
                 onColumnChangeHandler.accept(columns);
             }
-        } else {
-            log.debug("Grid already configured correctly");
         }
     }
 
     @SneakyThrows
     @Override
     public int count(Query<Map<String, Object>, String> query) {
-        try (Connection connection = dataSource.getConnection(); Statement statement = connection.createStatement(); ResultSet rs = statement.executeQuery("select count(*) as the_count from %s".formatted(fqn))) {
+        StringBuilder sql = new StringBuilder("select count(*) as the_count from %s".formatted(fqn));
+        query.getFilter().ifPresent(f -> {
+            if (isNotBlank(f)) {
+                sql.append(" where ").append(f);
+            }
+        });
+        var countQuery = sql.toString();
+        log.debug("Count Query = {}", countQuery);
+        try (Connection connection = dataSource.getConnection(); Statement statement = connection.createStatement(); ResultSet rs = statement.executeQuery(countQuery)) {
             if (rs.next()) {
-                return rs.getInt("the_count");
+                int itemCount = rs.getInt("the_count");
+                paginationControls.recalculatePageCount(itemCount);
+                var offset = paginationControls.calculateOffset();
+                var limit = paginationControls.getPageSize();
+                var remainingItemsCount = itemCount - offset;
+                return Math.min(remainingItemsCount, limit);
             } else {
                 log.warn("Zero rows for given query");
                 return 0;

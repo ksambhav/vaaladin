@@ -1,18 +1,29 @@
 @import url('./main-layout.css');
 @import url('./views/customers-view.css');
-@import url('./views/orders-view.css');    html {
-      --lumo-border-radius-s: calc(var(--lumo-size-m) / 6);
-      --lumo-border-radius-m: calc(var(--lumo-size-m) / 2);
-      --lumo-border-radius-l: var(--lumo-size-m);
-      --lumo-size-xl: 4rem;
-      --lumo-size-l: 3rem;
-      --lumo-size-m: 2.5rem;
-      --lumo-size-s: 2rem;
-      --lumo-size-xs: 1.75rem;
+@import url('./views/orders-view.css');
+ html {
+  --lumo-border-radius-s: calc(var(--lumo-size-m) / 6);
+  --lumo-border-radius-m: calc(var(--lumo-size-m) / 2);
+  --lumo-border-radius-l: var(--lumo-size-m);
+  --lumo-size-xl: 4rem;
+  --lumo-size-l: 3rem;
+  --lumo-size-m: 2.5rem;
+  --lumo-size-s: 2rem;
+  --lumo-size-xs: 1.75rem;
 
-    }
+}
+vaadin-button {
+  cursor: pointer;
+}
 
-    [theme~="dark"] {
-      --lumo-base-color: hsl(214, 9%, 5%);
+vaadin-anchor {
+  cursor: pointer;
+}
 
-    }
+vaadin-grid::part(row):hover {
+  background-color: var(--lumo-contrast-5pct);
+}
+
+[theme~="dark"] {
+  --lumo-base-color: hsl(214, 9%, 5%);
+}
