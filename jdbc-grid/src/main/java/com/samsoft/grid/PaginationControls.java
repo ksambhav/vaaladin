@@ -17,7 +17,7 @@ public class PaginationControls extends HorizontalLayout {
     private int totalItemCount = 0;
     private int pageCount = 1;
     @Getter
-    private int pageSize = 10;
+    private int pageSize = 50;
     private int currentPage = 1;
     private Runnable pageChangedListener;
 
@@ -34,7 +34,7 @@ public class PaginationControls extends HorizontalLayout {
         select.addThemeVariants(SelectVariant.LUMO_SMALL);
         select.getStyle().set("--vaadin-input-field-value-font-size", "var(--lumo-font-size-s)");
         select.setWidth("4.8rem");
-        select.setItems(10, 15, 25, 50, 100);
+        select.setItems(pageSize, 100, 150, 200);
         select.setValue(pageSize);
         select.addValueChangeListener(e -> {
             pageSize = e.getValue();
@@ -88,11 +88,11 @@ public class PaginationControls extends HorizontalLayout {
         return createIconButton(VaadinIcon.ANGLE_DOUBLE_RIGHT, "Go to last page", () -> currentPage = pageCount);
     }
 
-    private final Button firstPageButton = firstPageButton();
-
     private Button goToNextPageButton() {
         return createIconButton(VaadinIcon.ANGLE_RIGHT, "Go to next page", () -> currentPage++);
     }
+
+    private final Button firstPageButton = firstPageButton();
 
     private Button goToPreviousPageButton() {
         return createIconButton(VaadinIcon.ANGLE_LEFT, "Go to previous page", () -> currentPage--);

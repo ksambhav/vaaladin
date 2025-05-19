@@ -31,7 +31,10 @@ public class JdbcGrid extends VerticalLayout {
         setMargin(false);
         this.fqn = fqn;
         final PaginationControls paginationControls = new PaginationControls();
-        paginationControls.onPageChanged(() -> grid.getDataProvider().refreshAll());
+        paginationControls.onPageChanged(() -> {
+            grid.setPageSize(Integer.max(paginationControls.getPageSize(), grid.getPageSize()));
+            grid.getDataProvider().refreshAll();
+        });
         JdbcDataCallback jdbcDataCallback = new JdbcDataCallback(grid, dataSource, fqn, paginationControls);
         jdbcDataCallback.setFqn(fqn);
         var dataProvider = new JdbcDataProvider(jdbcDataCallback).withConfigurableFilter();
