@@ -23,5 +23,4 @@ public class VaadinKickStartApp implements AppShellConfigurator {
     public static void main(String[] args) {
         SpringApplication.run(VaadinKickStartApp.class, args);
     }
-
 }
