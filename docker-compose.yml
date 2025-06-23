@@ -23,6 +23,5 @@ services:
         reservations:
           cpus: "0.6"
           memory: 1G
-
 volumes:
   db_data:
