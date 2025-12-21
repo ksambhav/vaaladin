@@ -1,9 +1,10 @@
 package com.samsoft;
 
+import com.vaadin.flow.component.dependency.StyleSheet;
 import com.vaadin.flow.component.page.AppShellConfigurator;
+import com.vaadin.flow.component.page.ColorScheme;
 import com.vaadin.flow.component.page.Push;
-import com.vaadin.flow.theme.Theme;
-import com.vaadin.flow.theme.lumo.Lumo;
+import com.vaadin.flow.theme.aura.Aura;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
@@ -15,7 +16,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
  * and some desktop browsers.
  */
 @SpringBootApplication
-@Theme(value = "my-app", variant = Lumo.DARK)
+@StyleSheet(Aura.STYLESHEET)
+@ColorScheme(ColorScheme.Value.SYSTEM)
 @EnableJpaAuditing
 @Push
 public class VaadinKickStartApp implements AppShellConfigurator {

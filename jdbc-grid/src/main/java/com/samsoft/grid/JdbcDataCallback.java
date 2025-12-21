@@ -12,7 +12,6 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.text.WordUtils;
 
-import javax.annotation.concurrent.NotThreadSafe;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -28,7 +27,6 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 @Slf4j
-@NotThreadSafe
 public class JdbcDataCallback implements
         CallbackDataProvider.FetchCallback<Map<String, Object>, String>,
         CallbackDataProvider.CountCallback<Map<String, Object>, String> {

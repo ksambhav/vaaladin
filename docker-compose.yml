@@ -1,6 +1,6 @@
 services:
   db:
-    image: pgvector/pgvector:pg17
+    image: pgvector/pgvector:pg18
     container_name: postgres_db
     restart: always
     environment:
@@ -12,7 +12,7 @@ services:
     volumes:
       - db_data:/var/lib/postgresql/data
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U postgres -d samsoft" ]
+      test: [ "CMD-SHELL", "pg_isready -U user -d samsoft" ]
       interval: 10s
       timeout: 5s
       retries: 3

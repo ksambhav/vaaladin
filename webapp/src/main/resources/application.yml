@@ -31,7 +31,7 @@ spring:
     #    username: sa
     hikari:
       pool-name: samsoft
-      maximum-pool-size: 5
+      maximum-pool-size: 2
       connection-timeout: 500
       idle-timeout: 30000
   security:

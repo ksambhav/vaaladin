@@ -99,11 +99,11 @@ public class MainLayout extends AppLayout {
         return footer;
     }
 
-    @Override
+    /*@Override
     protected void afterNavigation() {
         super.afterNavigation();
         viewTitle.setText(getCurrentPageTitle());
-    }
+    }*/
 
     private String getCurrentPageTitle() {
         return MenuConfiguration.getPageHeader(getContent()).orElse("");

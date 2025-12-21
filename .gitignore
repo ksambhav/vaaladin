@@ -37,3 +37,4 @@ HELP.md
 **/generated
 /webapp/src/main/bundles/prod.bundle
 .env
+/.run/vaaladin-native-image.run.xml
