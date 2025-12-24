@@ -12,7 +12,7 @@ import com.vaadin.flow.component.select.SelectVariant;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 import lombok.Getter;
 
-public class PaginationControls extends HorizontalLayout {
+class PaginationControls extends HorizontalLayout {
     private final Span currentPageLabel = currentPageLabel();
     private int totalItemCount = 0;
     private int pageCount = 1;
